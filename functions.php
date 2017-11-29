@@ -66,6 +66,27 @@
 		return $data;
 	}	
 	
+	function publicPhotos(){
+		$notice = "";
+		$picDir = "../thumbs/";
+		$desc = "Natukene kasutatud, aga töötab!!!Natukene kasutatud, aga töötab!!!Natukene kasutatud, aga töötab!!!Natukene kasutatud, aga töötab!!!";
+		$contact = "Email: Kartulipuder123@hot.ee Tel:584874594" ;
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("SELECT thumbnail from vpphotos order by id DESC");
+		echo $mysqli->error;
+		$stmt->bind_result ($thumbnailName);
+		$stmt->execute();
+		
+		while($stmt->fetch()){
+			$notice .=  '<table style="width:50%"> <tr><td><img src="' . $picDir . '/' . $thumbnailName . '" alt="Auto"></td><td>'. $desc.'<br> <button type="button" onclick=document.getElementById("demo").innerHTML ="'.$contact.'">Näita kontaktandmeid</button><p id="demo"></p></td><td> HIND: 190€ </td></tr></table> <br>' ;
+			
+		}
+		
+		$stmt->close();
+		$mysqli->close();
+		return $notice;
+	}
+	
 	
 	
 	
