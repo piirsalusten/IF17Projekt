@@ -50,6 +50,7 @@
 			$signupFamilyName = test_input($_POST["signupFamilyName"]);
 		}
 	}
+
 	#Kas päev on sisestatud
 	if (isset ($_POST["signupBirthDay"])){
 		$signupBirthDay = $_POST["signupBirthDay"];
@@ -78,6 +79,33 @@
 		}
 	} else {
 		$signupBirthDayError = "Kuupäev pole sisestatud!";
+	}
+	
+	//Kontrollime, kas isikukood on sisestatud?
+	if (isset ($_POST["signupPic"])){
+		if (empty ($_POST["signupPic"])){
+			$signupPicError ="NB! Väli on kohustuslik!";
+		} else {
+			$signupPic = test_input($_POST["signupPic"]);
+		}
+	}
+	
+	//Kontrollime, kas aadress on sisestatud?
+	if (isset ($_POST["signupAddress"])){
+		if (empty ($_POST["signupAddress"])){
+			$signupAddressError ="NB! Väli on kohustuslik!";
+		} else {
+			$signupAddress = test_input($_POST["signupAddress"]);
+		}
+	}
+	
+	//Kontrollime, kas telefoninumber on sisestatud?
+	if (isset ($_POST["signupPhoneNumber"])){
+		if (empty ($_POST["signupPhoneNumber"])){
+			$signupPhoneNumberError ="NB! Väli on kohustuslik!";
+		} else {
+			$signupPhoneNumber = test_input($_POST["signupPhoneNumber"]);
+		}
 	}
 	
 	//kontrollime, kas kirjutati kasutajanimeks email
