@@ -76,7 +76,7 @@ table, th, td {
 		<br><br>
 		<input name="signinButton" type="submit" value="Logi sisse"> <span> <?php echo $notice ?><span>
 	</form>
-     <a href="login.php">Registreeri!</a>
+     <a href="register.php">Registreeri!</a>
 <?php } ?>
 	
 	<p> Kategooriad: </p>
