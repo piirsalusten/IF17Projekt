@@ -27,7 +27,7 @@
 				$_SESSION["userEmail"] = $emailFromDb;
 				
 				//liigume pealehele
-				header("Location: main.php");
+				header("Location: index.php");
 				exit();	
 			} else {
 				$notice = "Sisestasite vale salasõna!";
@@ -66,7 +66,7 @@
 		return $data;
 	}	
 	
-	function publicPhotos(){
+	function latestItems(){
 		$notice = "";
 		$picDir = "../thumbs/";
 		$desc = "Natukene kasutatud, aga töötab!!!Natukene kasutatud, aga töötab!!!Natukene kasutatud, aga töötab!!!Natukene kasutatud, aga töötab!!!";
@@ -78,7 +78,7 @@
 		$stmt->execute();
 		
 		while($stmt->fetch()){
-			$notice .=  '<table style="width:50%"> <tr><td><img src="' . $picDir . '/' . $thumbnailName . '" alt="Auto"></td><td>'. $desc.'<br> <button type="button" onclick=document.getElementById("demo").innerHTML ="'.$contact.'">Näita kontaktandmeid</button><p id="demo"></p></td><td> HIND: 190€ </td></tr></table> <br>' ;
+			$notice .=  '<tr><td><img src="' . $picDir . '/' . $thumbnailName . '" alt="Auto"></td><td>'. $desc.'<br> <button type="button" onclick=document.getElementById("demo").innerHTML ="'.$contact.'">Näita kontaktandmeid</button><p id="demo"></p></td><td> HIND: 190€ </td></tr>' ;
 			
 		}
 		

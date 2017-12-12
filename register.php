@@ -190,21 +190,42 @@
 		
 	}
 	$signupYearSelectHTML.= "</select> \n";
-	
-	
-	
-	
 ?>
-<!DOCTYPE html>
-<html lang="et">
-<head>
-	<meta charset="utf-8">
-	<title>uue kasutaja loomine</title>
-</head>
 
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>tlushop.ee</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
 <body>
-	
-	<h2>Loo kasutaja</h2>
+
+	<div id="main">
+
+		<div class="container">
+
+			<div id="header">
+				<div id="logo">
+					<h1>Logo</h1>
+				</div>
+
+				<div style="clear:both"></div>
+
+				<ul id="menu">
+					<li><a href="index.php">Avaleht</a></li>
+					<li><a href="#">Tere</a></li>
+					<li><a href="#">Tore</a></li>
+					<li><a href="#">Kontakt</a></li>
+				</ul>
+				<div style="clear:both"></div>
+
+			</div><!-- end header -->
+
+			<div id="content">
+				<h2>Loo kasutaja</h2>
 	<p>Uus kasutaja</p>
 	
 	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -253,6 +274,40 @@
 		
 		<input name="signupButton" type="submit" value="Loo kasutaja">
 	</form>
+				
+
+						
+			</div><!-- end content -->
+
+			<div id="sidebar">
+				
+				<div id="feeds">
+					<h3>Logi sisse/
+					registreeri</h3>	
+					
+				</div>
+
+			
+				</div>
+
+		
+			</div><!-- end sidebar -->
+			<div style="clear:both"></div>
+
+		</div> <!-- end main container -->
+
+	</div><!-- end main -->		
+
+	<div id="footer">
+		<div class="container">
+			<p>Copyright &copy; 2009 tlushop.ee <br>
+				All Right Reserved
+			</p>
+			
+		</div>
+	</div><!-- end footer -->
+
+
 	
 </body>
 </html>

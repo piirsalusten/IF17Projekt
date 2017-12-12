@@ -5,17 +5,17 @@
 	$notice = "";
 
 	//Sisselogimise kontroll(tuleb muuta veel leht kuhu tagasi viib)
-	/*if(!isset($_SESSION["userId"])){
-		header("Location: login.php");
+	if(!isset($_SESSION["userId"])){
+		header("Location: index.php");
 		exit();
-	}*/
+	}
 
 	//väljalogimine
-	/*if(isset($_GET["logout"])){
+	if(isset($_GET["logout"])){
 		session_destroy();
-		header("Location: login.php");
+		header("Location: index.php");
 		exit();
-	}*/
+	}
 	$productName = "";
 	$productNameError = "";
 	$productDesc = "";
@@ -128,41 +128,100 @@ if(!empty($_FILES["fileToUpload"]["name"])){
 	}
 ?>
 
-<!DOCTYPE HTML>
-<html lang="et">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Kuulutuse lisamine</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>tlushop.ee</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="icon" href="tlu_watermark.png">
 </head>
-
 <body>
-	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
-		<label>Toote nimi: </label>
-		<input name="tooteNimi type="text" value="<?php echo $productName; ?>">
-		<span> <?php echo $productNameError ?><span>
-		<br>
-		<label>Vali toote kategooria:</label>
-		<select name="Categories">
-			<option value="1">Elektroonika</option>
-			<option value="2">Riideesemed</option>
-			<option value="3">Mööbel</option>
-			<option value="4">Muu</option>
-		</select>
-		<span> <?php echo $categoryError ?><span>
-		<br><br>
-		<label>toote hind: </label>
-		<input name="tooteHind type="text" value="<?php echo $productPrice; ?>">
-		<span> <?php echo $productPriceError ?><span>
-		<br><br>
-		<label>Kuulutuse kirjeldus: </label>
-		<br>
-		<textarea name="productDesc" rows="5" cols="40"><?php echo $productDesc; ?></textarea>
-		<span> <?php echo $productDescError ?><span>
-		<br><br>
-		<label>Valige pilt tootest:</label>
-		<input type="file" name="fileToUpload" id="fileToUpload">
-		<span> <?php echo $fileToUploadError ?><span>
-		<br><br>
-		<input type="submit" value="Lae üles" name="submit">
+
+	<div id="main">
+
+		<div class="container">
+
+			<div id="header">
+				<div id="logo">
+					<h1>Logo</h1>
+				</div>
+
+				<div style="clear:both"></div>
+
+				<ul id="menu">
+					<li><a href="#">Avaleht</a></li>
+					<li><a href="#">Tere</a></li>
+					<li><a href="#">Tore</a></li>
+					<li><a href="#">Kontakt</a></li>
+				</ul>
+				<div style="clear:both"></div>
+
+			</div>
+
+			<div id="content">
+				<h2>Lisa kuulutus</h2>
+				<br>
+				<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
+				<label>Toote nimi: </label>
+				<input name="tooteNimi type="text" value="<?php echo $productName; ?>">
+				<span> <?php echo $productNameError ?><span>
+				<br>
+				<label>Vali toote kategooria:</label>
+				
+				<select name="Categories">
+					<option value="1">Elektroonika</option>
+					<option value="2">Riideesemed</option>
+					<option value="3">Mööbel</option>
+					<option value="4">Muu</option>
+				</select>
+				<span> <?php echo $categoryError ?><span>
+				<br><br>
+				<label>toote hind: </label>
+				<input name="tooteHind type="text" value="<?php echo $productPrice; ?>">
+				<span> <?php echo $productPriceError ?><span>
+				<br><br>
+				<label>Kuulutuse kirjeldus: </label>
+				<br>
+				<textarea name="productDesc" rows="5" cols="40"><?php echo $productDesc; ?></textarea>
+				<span> <?php echo $productDescError ?><span>
+				<br><br>
+				<label>Valige pilt tootest:</label>
+				<input type="file" name="fileToUpload" id="fileToUpload">
+				<span> <?php echo $fileToUploadError ?><span>
+				<br><br>
+				<input type="submit" value="Lae üles" name="submit">
+				</div>
+		
+			</div>
+
+			<div id="sidebar">
+				<div id="feeds">
+					<h3>Logi sisse/registreeri</h3>	
+					<p>lolwhat teretore</p>
+				</div>
+
+			
+				</div>
+
+		
+			</div>
+			<div style="clear:both"></div>
+
+		</div>
+
+	</div>
+
+	<div id="footer">
+		<div class="container">
+			<p>Copyright &copy; 2017 tlushop.ee <br>
+				All Right Reserved
+			</p>
+			
+		</div>
+	</div>
+
+
+	
 </body>
 </html>
