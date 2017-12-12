@@ -28,7 +28,7 @@
 			}
 		}
 		
-		public function resizeImage($width, $height){
+		public function resizePhoto($width, $height){
 			$this->createImage();
 			$imageWidth = imagesx($this->myTempImage);
 			$imageHeight = imagesy($this->myTempImage);
@@ -53,9 +53,10 @@
 			return $dst;
 		}
 		
+	
 		public function addWatermark($marginHor, $marginVer){
 			//lisame vesimärgi
-			$stamp = imagecreatefrompng("../../graphics/hmv_logo.png");
+			$stamp = imagecreatefrompng("images/tlu_watermark.png");
 			$stampWidth = imagesx($stamp);
 			$stampHeight = imagesy($stamp);
 			$stampPosX = imagesx($this->myImage) - $stampWidth - $marginHor;

@@ -26,10 +26,11 @@
 	$productCategoryError = "";
 	$fileToUploadError = "";
 	$productUserId = "";
+	$categoryError = "";
 	
 	
 	//pildi värgid-särgid
-	$target_dir = "/kuulutuspics/";
+	$target_dir = "kuulutuspics/";
 	$target_file = "";
 	$uploadOk = 1;
 	$maxWidth = 600;
@@ -108,7 +109,7 @@ if(!empty($_FILES["fileToUpload"]["name"])){
 		//pildi laadimine classi abil
 		$myPhoto = new Photoupload($_FILES["fileToUpload"]["tmp_name"], $imageFileType);
 		$myPhoto->resizePhoto($maxWidth, $maxHeight);
-		$myPhoto->addWatermark("/images/tluwatermark.png", $marginHor, $marginVer);
+		$myPhoto->addWatermark("/images/tlu_watermark.png", $marginHor, $marginVer);
 		$notice = $myPhoto->savePhoto($target_dir, $target_file);
 		$myPhoto->clearImages();
 		unset($myPhoto);
