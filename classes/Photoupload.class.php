@@ -1,9 +1,6 @@
 <?php
 	class Photoupload {
-		//properties ehk muutujad, methods ehk funktsioonid
-		/*public $testPublic;
-		public $testPrivate;*/
-		//protected
+		
 		private $tempName;
 		private $imageFileType;
 		private $myTempImage;
@@ -28,6 +25,7 @@
 			}
 		}
 		
+
 		public function resizePhoto($width, $height){
 			$this->createImage();
 			$imageWidth = imagesx($this->myTempImage);
@@ -43,17 +41,7 @@
 			$this->myImage = $this->resize_image($this->myTempImage, $imageWidth, $imageHeight, 0, 0, round($imageWidth / $sizeRatio), round($imageHeight / $sizeRatio));
 		}
 		
-		private function resize_image($image, $origW, $origH, $origX, $origY, $w, $h){
-			$dst = imagecreatetruecolor($w, $h);
-			//säilitan png jaoks läbipaistvuse
-			imagesavealpha($dst, true);
-			$transColor = imagecolorallocatealpha($dst, 0, 0, 0, 127);
-			imagefill($dst, 0, 0, $transColor);
-			imagecopyresampled($dst, $image, 0, 0, $origX, $origY, $w, $h, $origW, $origH);
-			return $dst;
-		}
 		
-	
 		public function addWatermark($marginHor, $marginVer){
 			//lisame vesimärgi
 			$stamp = imagecreatefrompng("images/tlu_watermark.png");
@@ -62,18 +50,7 @@
 			$stampPosX = imagesx($this->myImage) - $stampWidth - $marginHor;
 			$stampPosY = imagesy($this->myImage) - $stampHeight - $marginVer;
 			imagecopy($this->myImage, $stamp, $stampPosX, $stampPosY, 0, 0, $stampWidth, $stampHeight);
-		}
-		
-		/*public function readExif(){
-			//loen EXIF infot
-			@$exif = exif_read_data($this->tempName, "ANY_TAG", 0, true);
-			//var_dump($exif);
-			if(!empty($exif["DateTimeOriginal"])){
-				$this->exifToImage = "Pilt tehti: " .$exif["DateTimeOriginal"];
-			} else {
-				$this->exifToImage = "Pildistamise aeg teadmata! ";
-			}
-		}*/
+		}	
 		
 		public function savePhoto($directory, $fileName){
 			//salvestame pildifaili
@@ -102,14 +79,6 @@
 			return $notice;
 		}
 		
-		public function saveOriginal($directory, $fileName){
-			$target_file = $directory .$fileName;
-			if (move_uploaded_file($this->tempName, $target_file)) {
-				$notice .= "Originaalfaili salvestamine õnnestus! ";
-			} else {
-				$notice .= "Originaalfaili salvestamine ebaõnnestus! ";
-			}
-		}
 		
 		public function createThumbnail($directory, $filename, $width, $height){
 			$imageWidth = imagesx($this->myTempImage);
@@ -140,6 +109,7 @@
 			} else {
 				$notice = "Pisipildi salvestamine ebaõnnestus! ";
 			}
+
 		}
 		
 		public function clearImages(){
