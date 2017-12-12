@@ -11,8 +11,6 @@
 		public $exifToImage;
 		
 		function __construct($name, $type){
-			/*$this->testPublic = "Väga avalik muutuja!";
-			$this->testPrivate = $x;*/
 			$this->tempName = $name;
 			$this->imageFileType = $type;
 		}
@@ -65,7 +63,7 @@
 			imagecopy($this->myImage, $stamp, $stampPosX, $stampPosY, 0, 0, $stampWidth, $stampHeight);
 		}
 		
-		public function readExif(){
+		/*public function readExif(){
 			//loen EXIF infot
 			@$exif = exif_read_data($this->tempName, "ANY_TAG", 0, true);
 			//var_dump($exif);
@@ -74,15 +72,7 @@
 			} else {
 				$this->exifToImage = "Pildistamise aeg teadmata! ";
 			}
-		}
-		
-		public function addTextWatermark($text){
-			//värv
-			//imagecolorallocate - ilma läbipaistvuseta
-			//alpha 0 - 127
-			$textColor = imagecolorallocatealpha($this->myImage, 255, 255, 255, 50);
-			imagettftext($this->myImage, 20, 0, 10, 25, $textColor, "../../graphics/ARIAL.TTF", $text);
-		}
+		}*/
 		
 		public function savePhoto($directory, $fileName){
 			//salvestame pildifaili
@@ -149,7 +139,6 @@
 			} else {
 				$notice = "Pisipildi salvestamine ebaõnnestus! ";
 			}
-			
 		}
 		
 		public function clearImages(){
