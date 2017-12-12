@@ -58,6 +58,20 @@
 		}	
 	}
 	
+	function addSale($productName, $productCategory, $productPrice, $productDesc, $target_file){
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("INSERT INTO epproducts(epusers_id, product_name, Category, Price, productDesc, pictureName) VALUES (?, ?, ?, ?, ?, ?)");
+		echo $mysqli->error;
+		$stmt->bind_param("isiiss" $_SESSION["userId"], $productName, $productCategory, $productPrice, $productDesc, $target_file);
+		if($stmt->execute()){
+			echo "kuulutus lisati üles!";
+		} else {
+			echo "Tekkis viga: " .$stmt->error;
+		}	
+		$stmt->close();
+		$mysqli->close();
+	}
+	
 	//sisestuse kontrollimine
 	function test_input($data){
 		$data = trim($data); //eemaldab lõpust tühiku, tab, vms
