@@ -190,21 +190,49 @@
 		
 	}
 	$signupYearSelectHTML.= "</select> \n";
-	
-	
-	
-	
 ?>
-<!DOCTYPE html>
-<html lang="et">
-<head>
-	<meta charset="utf-8">
-	<title>uue kasutaja loomine</title>
-</head>
 
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>tlushop.ee</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="icon" href="tlu_watermark.png">
+</head>
 <body>
-	
-	<h2>Loo kasutaja</h2>
+
+	<div id="main">
+
+		<div class="container">
+
+			<div id="header">
+				<div id="logo">
+					<h1>Logo</h1>
+				</div>
+
+				<div style="clear:both"></div>
+
+				<ul id="menu">
+					<li><a href="index.php">Avaleht</a></li>
+					<li><a href="#">Pood</a>
+				<ul>
+					<li><a href="">Elektroonika</a></li>
+					<li><a href="">Riideesemed</a></li>
+					<li><a href="">Mööbel</a></li>
+					<li><a href="">Muu</a></li>
+				</ul>
+					<li><a href="#">KKK</a></li>
+					<li><a href="contact.php">Kontakt</a></li>
+				
+				<div style="clear:both"></div>
+
+				</div>
+
+			<div id="content">
+				<h2>Loo kasutaja</h2>
 	<p>Uus kasutaja</p>
 	
 	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -253,6 +281,40 @@
 		
 		<input name="signupButton" type="submit" value="Loo kasutaja">
 	</form>
+				
+
+						
+			</div>
+
+			<div id="sidebar">
+				
+				<div id="feeds">
+					<h3>Logi sisse/
+					registreeri</h3>	
+					
+				</div>
+
+			
+				</div>
+
+		
+			</div>
+			<div style="clear:both"></div>
+
+		</div> 
+
+	</div>	
+
+	<div id="footer">
+		<div class="container">
+			<p>Copyright &copy; 2017 tlushop.ee <br>
+				All Rights Reserved
+			</p>
+			
+		</div>
+	</div>
+
+
 	
 </body>
 </html>

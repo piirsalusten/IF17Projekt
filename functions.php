@@ -27,7 +27,7 @@
 				$_SESSION["userEmail"] = $emailFromDb;
 				
 				//liigume pealehele
-				header("Location: main.php");
+				header("Location: index.php");
 				exit();	
 			} else {
 				$notice = "Sisestasite vale salasõna!";
@@ -58,6 +58,20 @@
 		}	
 	}
 	
+	function addSale($productName, $productCategory, $productPrice, $productDesc, $target_file){
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("INSERT INTO epproducts(epusers_id, product_name, Category, Price, productDesc, pictureName) VALUES (?, ?, ?, ?, ?, ?)");
+		echo $mysqli->error;
+		$stmt->bind_param("isiiss", $_SESSION["userId"], $productName, $productCategory, $productPrice, $productDesc, $target_file);
+		if($stmt->execute()){
+			echo "kuulutus lisati üles!";
+		} else {
+			echo "Tekkis viga: " .$stmt->error;
+		}	
+		$stmt->close();
+		$mysqli->close();
+	}
+	
 	//sisestuse kontrollimine
 	function test_input($data){
 		$data = trim($data); //eemaldab lõpust tühiku, tab, vms
@@ -66,19 +80,18 @@
 		return $data;
 	}	
 	
-	function publicPhotos(){
+	function latestItems(){
 		$notice = "";
-		$picDir = "../thumbs/";
-		$desc = "Natukene kasutatud, aga töötab!!!Natukene kasutatud, aga töötab!!!Natukene kasutatud, aga töötab!!!Natukene kasutatud, aga töötab!!!";
+		$picDir = "kuulutuspics";
 		$contact = "Email: Kartulipuder123@hot.ee Tel:584874594" ;
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("SELECT thumbnail from vpphotos order by id DESC");
+		$stmt = $mysqli->prepare("SELECT pictureName, product_name, productDesc, Price from epproducts WHERE sold = 0 ORDER BY id DESC");
 		echo $mysqli->error;
-		$stmt->bind_result ($thumbnailName);
+		$stmt->bind_result ($pictureName, $productName, $productDesc, $Price);
 		$stmt->execute();
 		
 		while($stmt->fetch()){
-			$notice .=  '<table style="width:50%"> <tr><td><img src="' . $picDir . '/' . $thumbnailName . '" alt="Auto"></td><td>'. $desc.'<br> <button type="button" onclick=document.getElementById("demo").innerHTML ="'.$contact.'">Näita kontaktandmeid</button><p id="demo"></p></td><td> HIND: 190€ </td></tr></table> <br>' ;
+			$notice .=  '<tr><td><img src="' . $picDir . '/' . /*$pictureName*/'hmv_15131025931868.jpg' . '" alt="Auto"></td><td><p><b>'. $productName.'</b></p><br>' .$productDesc.'<br> <button type="button" onclick=document.getElementById("demo").innerHTML ="'.$contact.'">Näita kontaktandmeid</button><p id="demo"></p></td><td> HIND:'. $Price .'€ </td></tr>' ;
 			
 		}
 		
@@ -86,9 +99,3 @@
 		$mysqli->close();
 		return $notice;
 	}
-	
-	
-	
-	
-	
-	
