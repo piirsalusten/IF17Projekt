@@ -84,8 +84,20 @@
 				</div>
 
 			<div id="content">
-				<h2> Viimati üleslaetud kuulutused: </h2>
-				<span><table style="width:100%"> <tr><?php echo latestItems(); ?></tr></table> <br></span>
+				<h2> Reeglid: </h2>
+				<br>
+				<h3>Üldsätted</h3>
+				<p> tlushop.ee jätab endale kõikide kuulutuste andmete muutmise õiguse, püüdes maksimaalselt säilitada nende sisulist tähendust ja kõik kasutaja poolt märgitud detaile.</p>
+				<p>Kuulutuse avaldamisega tlushop.ee's nõustute alljärgnevaga:</p>
+				<p>1) Võtad enda peale vastutuse kuulutuses sisalduva teabe sisu ja selle tõepärasuse eest.</p>
+				<p>2) Lubad võtta endaga ühendust sisesüsteemi või kontakttelefoni vahendusel, mis on näidatud arvestusliku üleskirjutuse seades.</p>
+				<p>3) Reisiteenuste müümisel on kohustatud välja tuua selle ettevõtte nimi kelle toodet müüakse.</p>
+				<h3>Keelatud on:</h3>
+				<p>Lisada kuulutusi teemale mittevastavatesse jagudesse.</p>
+				<p>Lisada ühesuguse sisu ja tähendusega kuulutusi.</p>
+				<p>Lisada seadusandlust rikkuva sisuga kuulutusi (näiteks vägivalda, rassilise vihavaenu õhutamist, pornograafiat propageerivaid, autoriõigust rikkuvaid jms sisaldavad kuulutused).</p>
+				<p>Lisada üldtunnustatud moraali- ja kõlblusnorme rikkuva sisuga kuulutusi.</p>
+				
 		
 				</div>
 		

@@ -84,8 +84,8 @@
 				</div>
 
 			<div id="content">
-				<h2> Viimati üleslaetud kuulutused: </h2>
-				<span><table style="width:100%"> <tr><?php echo latestItems(); ?></tr></table> <br></span>
+				<h2> Elektroonika: </h2>
+				<span><table style="width:100%"> <tr><?php echo latestElectronics(); ?></tr></table> <br></span>
 		
 				</div>
 		
