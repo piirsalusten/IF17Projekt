@@ -104,7 +104,7 @@
 		$notice = "";
 		$picDir = "thumbnails";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("SELECT id, pictureName, product_name, Price from epproducts WHERE epusers_id = ? ORDER BY id DESC");
+		$stmt = $mysqli->prepare("SELECT id, pictureName, product_name, Price from epproducts WHERE epusers_id = ? AND sold = 0 ORDER BY id DESC");
 		echo $mysqli->error;
 		$stmt->bind_param("i", $_SESSION["userId"]);
 		$stmt->bind_result ($id ,$pictureName, $productName,  $Price);
@@ -120,16 +120,19 @@
 		return $notice;
 	}
 	
-	function getItem($itemId){
+	function getItem($itemId, $userId){
 		$notice = "";
 		$picDir = "kuulutuspics";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		$stmt = $mysqli -> prepare("SELECT id, pictureName, product_name, productDesc, Price from epproducts WHERE id=?");
+		$stmt = $mysqli -> prepare("SELECT id, epusers_id, pictureName, product_name, productDesc, Price from epproducts WHERE id=?");
 		echo $mysqli->error;
 		$stmt->bind_param("i", $itemId);
-		$stmt->bind_result($id, $pictureName, $productName, $productDesc, $Price);
+		$stmt->bind_result($id, $epusers_id, $pictureName, $productName, $productDesc, $Price);
 		$stmt->execute();
 		if($stmt->fetch()){$notice .=  '<h2>'. $productName .'</h2><img src="' . $picDir . '/' . $pictureName . '" alt="Auto"><br>'. $productDesc . '<br>' .$productName.'<br><h3>'. $Price .'€</h3>';
+		if($userId == $epusers_id){
+			$notice .= '<p><a href="?id=' .$id.'; &delete=1">Kustuta see kuulutus</a></p>';
+		}
 		} else {
 			$stmt->close();
 		    $mysqli->close();

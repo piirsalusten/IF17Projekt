@@ -36,10 +36,14 @@
 		$notice = signin($loginEmail, $_POST["loginPassword"]);
 	}
 	
+	if(isset($_GET["delete"])){
+		deleteItem($_GET["id"]);
+		header("Location: index.php");
+		exit();
+		}
+	
+	
 	}
-	
-	
-	
 ?>
 
 
@@ -86,13 +90,12 @@
 			<div id="content">
 				
 			<span>
-			<?php echo getItem($_GET['id']); ?>
-			
-			<?php if( isset($_SESSION['userId']) && !empty($_SESSION['userId']) )
-						{
-					?>
-					<p><a href="?id=<?php echo $_GET['id']; ?>&delete=1">Kustuta see kuulutus</a></p>
-						<?php } ?>
+			<?php echo getItem($_GET['id'], $_SESSION["userId"]); ?>			
+			<?php if(isset($_GET["delete"])){
+			deleteItem($_GET["id"]);
+			header("Location: index.php");
+			exit();
+			} ?>
 			<hr></span>
 		
 				</div>
@@ -107,6 +110,7 @@
 					?>
 					<p>Tere, <?php echo $_SESSION["firstname"] ." " .$_SESSION["lastname"]; ?></p>
 					<p><a href="addsale.php">Lisa kuulutus</a></p>
+					<a href="mylistings.php">Minu kuulutused</a><br>
 					<a href="?logout=1">Logi välja!</a>
 					<?php }else{ ?>
 					<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
