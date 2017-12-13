@@ -4,18 +4,17 @@
 	require("classes/Photoupload.class.php");
 	$notice = "";
 
-	//Sisselogimise kontroll(tuleb muuta veel leht kuhu tagasi viib)
-	/*if(!isset($_SESSION["userId"])){
-		header("Location: login.php");
+	if(!isset($_SESSION["userId"])){
+		header("Location: index.php");
 		exit();
-	}*/
+	}
 
 	//väljalogimine
-	/*if(isset($_GET["logout"])){
+	if(isset($_GET["logout"])){
 		session_destroy();
-		header("Location: login.php");
+		header("Location: index.php");
 		exit();
-	}*/
+	}
 	$productName = "";
 	$productNameError = "";
 	$productDesc = "";
@@ -29,17 +28,19 @@
 	$categoryError = "";
 	
 	
-	//pildi värgid-särgid
 	$target_dir = "kuulutuspics/";
+	$thumbs_dir = "thumbnails/";
 	$target_file = "";
+	$thumb_file = "";
 	$uploadOk = 1;
+	$imageFileType = "";
 	$maxWidth = 600;
+	$thumbsize = 100;
 	$maxHeight = 400;
-	$marginHor = 10; //vesimärgi kaugus servast
 	$marginVer = 10;
+	$marginHor = 10;
 	
-	$id = 1;
-	$_SESSION["userId"] = $id;
+	
 	
 	if(isset ($_POST["submit"])){
 	
@@ -67,102 +68,185 @@
 		}
 	}
 	
-	if (isset($_POST["categories"]) && !empty($_POST["categories"])){
-			$productCategory = intval($_POST["categories"]);
-			} else {
-				$productCategoryError = "Toote kategooria valimine on kohustuslik!";
-			}
+	if (isset($_POST["Categories"]) ){
+		$productCategory = $_POST["Categories"];
+	}
 	
-	// A L G N E   P I L D I  Ü L E S L A A D I M I N E
-	/*if(!empty($_FILES["fileToUpload"]["name"])){
-		$imageFileType = strtolower(pathinfo(basename($_FILES["fileToUpload"]["name"]))["extension"]);
-		$timeStamp = microtime(1) *10000;
-		$target_file = $target_dir . "kuulutus_" .$timeStamp ."." .$imageFileType;
-	} else {
-		$fileToUploadError = "Pilt peab olema valitud!";
-	}*/
+	if(!empty($_FILES["fileToUpload"]["name"])){
+		$imageFileType = strtolower(pathinfo(basename($_FILES["fileToUpload"]["name"]),PATHINFO_EXTENSION));
+		$timeStamp = microtime(1) * 10000;
+		$target_file = "kuulutus_" .$timeStamp ."." .$imageFileType;
+	}
 	
-	//U U S   K U I D   I L M S E L T    K A T K I N E   Ü L E S L A A D I M I N E
-if(!empty($_FILES["fileToUpload"]["name"])){
-	$imageFileType = strtolower(pathinfo(basename($_FILES["fileToUpload"]["name"]),PATHINFO_EXTENSION));
-	$timeStamp = microtime(1) * 10000;
-	$target_file = "hmv_" .$timeStamp ."." .$imageFileType;
-	$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-	if($check !== false) {
-		$notice .= "Fail on pilt - " . $check["mime"] . ". ";
-		$uploadOk = 1;
-	} else {
-		$notice .= "See pole pildifail. ";
-		$uploadOk = 0;
+	if(!empty($_FILES["fileToUpload"]["name"])){
+		$imageFileType = strtolower(pathinfo(basename($_FILES["fileToUpload"]["name"]),PATHINFO_EXTENSION));
+		$timeStamp = microtime(1) * 10000;
+		$target_file = "kuulutus_" .$timeStamp ."." .$imageFileType;
+		$thumb_file = "kuulutus_" .$timeStamp .".jpg";
+		
+		$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+		if($check !== false) {
+			$notice .= "Fail on pilt - " . $check["mime"] . ". ";
+			$uploadOk = 1;
+		} else {
+			$notice .= "See pole pildifail. ";
+			$uploadOk = 0;
+		}
+		if ($_FILES["fileToUpload"]["size"] > 1000000) {
+			$notice .= "Pilt on liiga suur! ";
+			$uploadOk = 0;
+		}
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
+			$notice .= "Vabandust, vaid jpg, jpeg, png ja gif failid on lubatud! ";
+			$uploadOk = 0;
+		}
+		if ($uploadOk == 0) {
+			$notice .= "Vabandust, pilti ei laetud üles! ";
+		} else {		
+			//PILDI LAADIMINE CLASSI ABIL
+			$myPhoto = new Photoupload($_FILES["fileToUpload"]["tmp_name"], $imageFileType);
+			$myPhoto->resizePhoto($maxWidth, $maxHeight);
+			$myPhoto->addWatermark($marginHor, $marginVer);
+			$notice .= $myPhoto->savePhoto($target_dir, $target_file);
+			$notice .= $myPhoto->createThumbnail($thumbs_dir, $thumb_file, $thumbsize, $thumbsize);
+			$myPhoto->clearImages();
+			unset($myPhoto);
+		} 
+	}else{
+		$notice = "Palun valige kõigepealt pildifail!";
 	}
-	if ($_FILES["fileToUpload"]["size"] > 1000000) {
-		$notice .= "Pilt on liiga suur! ";
-		$uploadOk = 0;
-	}
-	if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
-		$notice .= "Vabandust, vaid jpg, jpeg, png ja gif failid on lubatud! ";
-		$uploadOk = 0;
-	}
-	if ($uploadOk == 0) {
-		$notice .= "Vabandust, pilti ei laetud üles! ";
-	} else {		
-		//pildi laadimine classi abil
-		$myPhoto = new Photoupload($_FILES["fileToUpload"]["tmp_name"], $imageFileType);
-		$myPhoto->resizePhoto($maxWidth, $maxHeight);
-		$myPhoto->addWatermark("/images/tlu_watermark.png", $marginHor, $marginVer);
-		$notice = $myPhoto->savePhoto($target_dir, $target_file);
-		$myPhoto->clearImages();
-		unset($myPhoto);
-	} 
-}else{
-	$notice = "Palun valige kõigepealt pildifail!";
-}
 	
 	# Uue kuulutuse lisamine andmebaasi
 	if (empty($productNameError) and empty($productDescError) and empty ($productPriceError) 
 	and empty ($productCategoryError) and empty ($fileToUploadError)){
-		echo "Hakkan andmeid salvestama!";
+		echo "Hakkan andmeid salvestama!"; 
 		addSale($productName, $productCategory, $productPrice, $productDesc, $target_file);
 	}
 	
 	}
 ?>
 
-<!DOCTYPE HTML>
-<html lang="et">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Kuulutuse lisamine</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>tlushop.ee</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="icon" href="tlu_watermark.png">
 </head>
-
 <body>
-	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
-		<label>Toote nimi: </label>
-		<input name="tooteNimi type="text" value="<?php echo $productName; ?>">
-		<span> <?php echo $productNameError ?><span>
-		<br>
-		<label>Vali toote kategooria:</label>
-		<select name="Categories">
-			<option value="1">Elektroonika</option>
-			<option value="2">Riideesemed</option>
-			<option value="3">Mööbel</option>
-			<option value="4">Muu</option>
-		</select>
-		<span> <?php echo $categoryError ?><span>
-		<br><br>
-		<label>toote hind: </label>
-		<input name="tooteHind type="text" value="<?php echo $productPrice; ?>">
-		<span> <?php echo $productPriceError ?><span>
-		<br><br>
-		<label>Kuulutuse kirjeldus: </label>
-		<br>
-		<textarea name="productDesc" rows="5" cols="40"><?php echo $productDesc; ?></textarea>
-		<span> <?php echo $productDescError ?><span>
-		<br><br>
-		<label>Valige pilt tootest:</label>
-		<input type="file" name="fileToUpload" id="fileToUpload">
-		<span> <?php echo $fileToUploadError ?><span>
-		<br><br>
-		<input type="submit" value="Lae üles" name="submit">
+
+	<div id="main">
+
+		<div class="container">
+
+			<div id="header">
+				<div id="logo">
+					<h1>Logo</h1>
+				</div>
+
+				<div style="clear:both"></div>
+
+			<ul id="menu">
+					<li><a href="index.php">Avaleht</a></li>
+					<li><a href="#">Pood</a>
+				<ul>
+				
+					<li><a href="">Elektroonika</a></li>
+					<li><a href="">Riideesemed</a></li>
+					<li><a href="">Mööbel</a></li>
+					<li><a href="">Muu</a></li>
+				
+				</ul>
+					<li><a href="#">KKK</a></li>
+					<li><a href="contact.php">Kontakt</a></li>
+				
+				<div style="clear:both"></div>
+
+				</div>
+
+			<div id="content">
+				<h2>Lisa kuulutus</h2>
+				<br>
+				<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
+				<label>Toote nimi: </label>
+				<input name="productName" type="text" value="<?php echo $productName; ?>">
+				<span> <?php echo $productNameError ?><span>
+				<br>
+				<label>Vali toote kategooria:</label>
+				
+				<select name="Categories">
+					<option value="1">Elektroonika</option>
+					<option value="2">Riideesemed</option>
+					<option value="3">Mööbel</option>
+					<option value="4">Muu</option>
+				</select>
+				<span> <?php echo $productCategoryError ?><span>
+				<br><br>
+				<label>toote hind: </label>
+				<input name="productPrice" type="text" value="<?php echo $productPrice; ?>">
+				<span> <?php echo $productPriceError ?><span>
+				<br><br>
+				<label>Kuulutuse kirjeldus: </label>
+				<br>
+				<textarea name="productDesc" rows="5" cols="40"><?php echo $productDesc; ?></textarea>
+				<span> <?php echo $productDescError ?><span>
+				<br><br>
+				<label>Valige pilt tootest:</label>
+				<input type="file" name="fileToUpload" id="fileToUpload">
+				<span> <?php echo $fileToUploadError ?><span>
+				<br><br>
+				<input type="submit" value="Lae üles" name="submit">
+				</div>
+		
+			</div>
+
+			<div id="sidebar">
+				<div id="feeds">
+					
+					<?php if( isset($_SESSION['userId']) && !empty($_SESSION['userId']) )
+						{
+					?>
+					<p>Tere, <?php echo $_SESSION["firstname"] ." " .$_SESSION["lastname"]; ?></p>
+					
+					<a href="?logout=1">Logi välja!</a>
+					<?php }else{ ?>
+					<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+					<label>Kasutajanimi (E-post): </label>
+					<br>
+					<input name="loginEmail" type="email" value="<?php echo $loginEmail; ?>">
+					<br><br>
+					<label>Parool: </label>
+					<br>
+					<input name="loginPassword" placeholder="Salasõna" type="password">
+					<br><br>
+					<input name="signinButton" type="submit" value="Logi sisse"> <span> <?php echo $notice ?><span>
+					</form>
+					<a href="register.php">Registreeri!</a>
+					<?php } ?>
+				</div>
+
+			
+				</div>
+
+		
+			</div>
+			<div style="clear:both"></div>
+
+		</div>
+
+	</div>
+
+	<div id="footer">
+		<div class="container">
+			<p>Copyright &copy; 2017 tlushop.ee <br>
+				All Right Reserved
+			</p>
+			
+		</div>
+	</div>
+
+
+	
 </body>
 </html>

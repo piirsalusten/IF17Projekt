@@ -1,14 +1,13 @@
 <?php
 	class Photoupload {
-		//properties ehk muutujad, methods ehk funktsioonid
-		/*public $testPublic;
-		public $testPrivate;*/
-		//protected
 		private $tempName;
 		private $imageFileType;
 		private $myTempImage;
 		private $myImage;
 		public $exifToImage;
+	
+		
+		
 		
 		function __construct($name, $type){
 			$this->tempName = $name;
@@ -16,7 +15,6 @@
 		}
 		
 		private function createImage(){
-			//lähtudes failitüübist, loome pildiobjekti
 			if($this->imageFileType == "jpg" or $this->imageFileType == "jpeg"){
 				$this->myTempImage = imagecreatefromjpeg($this->tempName);
 			}
@@ -39,13 +37,11 @@
 			} else {
 				$sizeRatio = $imageHeight / $height;
 			}
-			//parameetrid 0 ja 0 on originaalist võetava osa ülemise vasaku nurga koordinaadid
 			$this->myImage = $this->resize_image($this->myTempImage, $imageWidth, $imageHeight, 0, 0, round($imageWidth / $sizeRatio), round($imageHeight / $sizeRatio));
 		}
 		
 		private function resize_image($image, $origW, $origH, $origX, $origY, $w, $h){
 			$dst = imagecreatetruecolor($w, $h);
-			//säilitan png jaoks läbipaistvuse
 			imagesavealpha($dst, true);
 			$transColor = imagecolorallocatealpha($dst, 0, 0, 0, 127);
 			imagefill($dst, 0, 0, $transColor);
@@ -55,7 +51,6 @@
 		
 	
 		public function addWatermark($marginHor, $marginVer){
-			//lisame vesimärgi
 			$stamp = imagecreatefrompng("images/tlu_watermark.png");
 			$stampWidth = imagesx($stamp);
 			$stampHeight = imagesy($stamp);
@@ -64,19 +59,7 @@
 			imagecopy($this->myImage, $stamp, $stampPosX, $stampPosY, 0, 0, $stampWidth, $stampHeight);
 		}
 		
-		/*public function readExif(){
-			//loen EXIF infot
-			@$exif = exif_read_data($this->tempName, "ANY_TAG", 0, true);
-			//var_dump($exif);
-			if(!empty($exif["DateTimeOriginal"])){
-				$this->exifToImage = "Pilt tehti: " .$exif["DateTimeOriginal"];
-			} else {
-				$this->exifToImage = "Pildistamise aeg teadmata! ";
-			}
-		}*/
-		
 		public function savePhoto($directory, $fileName){
-			//salvestame pildifaili
 			$target_file = $directory .$fileName;
 			if($this->imageFileType == "jpg" or $this->imageFileType == "jpeg"){
 				if(imagejpeg($this->myImage, $target_file, 90)){
@@ -114,32 +97,27 @@
 		public function createThumbnail($directory, $filename, $width, $height){
 			$imageWidth = imagesx($this->myTempImage);
 			$imageHeight = imagesy($this->myTempImage);
-			
 			$sizeRatio = 1;
 			if($imageWidth > $imageHeight){
 				$sizeRatio = $imageWidth / $width;
-			} else {
-				$sizeRatio = $imageHeight / $height;
-			}
-			//teen kindlaks, kust tuleb ruudu kujuliseks kärpida
-			if($imageWidth > $imageHeight){
 				$origX = round(($imageWidth - $imageHeight) / 2);
 				$origY = 0;
 				$cutSize = $imageHeight;
 			} else {
+				$sizeRatio = $imageHeight / $height;
 				$origX = 0;
 				$origY = round(($imageHeight - $imageWidth) / 2);
 				$cutSize = $imageWidth;
 			}
-			//parameetrid 0 ja 0 on originaalist võetava osa ülemise vasaku nurga koordinaadid
-			$myThumbnail = $this->resize_image($this->myTempImage, $imageWidth, $imageHeight, $origX, $origY, $width, $height);
+			
+			$myThumbnail = $this->resize_image($this->myTempImage, $cutSize, $cutSize, $origX, $origY, $width, $height);
 			$target_file = $directory .$filename;
-			//Thumbnail on igal juhul jpg
 			if(imagejpeg($myThumbnail, $target_file, 90)){
 				$notice = "Pisipildi salvestamine õnnestus! ";
 			} else {
 				$notice = "Pisipildi salvestamine ebaõnnestus! ";
 			}
+			
 		}
 		
 		public function clearImages(){
@@ -147,5 +125,5 @@
 			imagedestroy($this->myImage);
 		}
 		
-	} // class'i lõpp
+	} // CLASS'I LÕPP
 ?>

@@ -37,6 +37,8 @@ body, div, h1, h2, h3, h4, h5, h6, p, ul, img {margin:0px; padding:0px; }
 
 #header {
 	padding-top: 40px;
+	position: relative;
+    z-index: 10000;
 
 }
 
@@ -52,12 +54,12 @@ body, div, h1, h2, h3, h4, h5, h6, p, ul, img {margin:0px; padding:0px; }
 ul#menu {
     list-style: none; 
 	padding-top: 10px;
-	padding-bottom: 50px;
+	padding-bottom: 40px;
     
 }
 
 ul#menu li a {
-    font-size: 30px;
+    font-size: 25px;
     color: #676666;
     text-decoration: none; 
 }
@@ -65,7 +67,7 @@ ul#menu li a {
 ul#menu li {
     float: left; 
     padding-left: 0px;
-    padding-right: 105px;
+    padding-right: 50px;
     width:95px;
 }
 
@@ -152,27 +154,6 @@ ul#menu li {
     color: #393838; 
 }
 
-ul#subscribe li {
-    padding-bottom: 5px;
-    padding-left: 30px; 
-
-}
-
-ul#subscribe li a {
-    font-size: 16px; 
-}
-
-li#rss {
-	background: url(images/rss_icon.png) no-repeat;
-}
-
-li#email {
-	background: url(images/email_icon.png) no-repeat;
-}
-
-li#twitter {
-	background: url(images/twitter_icon.png) no-repeat;
-}
 
 a.button {
     color: #393838;
@@ -191,3 +172,44 @@ a.button {
     margin-top: 40px;
     color: #fff; 
 }
+
+
+
+
+
+
+ul, li {
+    margin: 0;
+    padding: 0;
+    }
+
+   
+ul li {
+    float: left;
+    list-style: none;       
+    margin-right: 10px;
+    }
+
+       
+ul li ul {
+    display: none;
+	font-size: 10px;
+    }
+
+       
+ul li:hover ul {
+    display: block;
+    position: absolute;
+	background-color: #c3c2c2;
+	background-size: 150% 150%
+    }
+
+           
+ul li:hover ul li {
+    clear: left; 
+    }
+	
+	
+dropdown-content a:hover {
+	background-color: #f1f1f1
+	}
