@@ -22,11 +22,44 @@ funktsionaalsuse loetelu:
 
 Andmebaasi skeem ja SQL Laused
 Andmebaase, mida kasutasime oli ainult 2. Algselt oli plaanid kasutada kolme aga suutsime vajaliku info mahutada kahte andmebaasi, mis tegi töö natukene lihtsamaks.
+
+Andmebaasi skeem: https://gyazo.com/8a688e10452a7a07ae00a31ca9876079
+
 Järgnevad on pildid nendest andmebaasidest
 https://gyazo.com/4ad93367ee00cb1fd309f2ea0b2d0b73
 https://gyazo.com/01cc617bd2fe2fd7041e10f8f01c71d2
+Tabelid tegime valmis phpmyadminis.
 
-Tabelid tegime valmis phpmyadminis, pole sqli koodi, mida näidata. Vajalikud lahtrid on ära näha nendel kahel pildil
+CREATE TABLE `epproducts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `epusers_id` int(11) DEFAULT NULL,
+  `product_name` varchar(100) DEFAULT NULL,
+  `Category` int(1) NOT NULL,
+  `Price` int(11) NOT NULL,
+  `productDesc` varchar(250) NOT NULL,
+  `pictureName` varchar(50) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `sold` int(1) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `epusers_id` (`epusers_id`),
+  CONSTRAINT `epproducts_ibfk_1` FOREIGN KEY (`epusers_id`) REFERENCES `epusers` (`id`)
+)
+
+CREATE TABLE `epusers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(30) CHARACTER SET utf8 COLLATE utf8_estonian_ci NOT NULL,
+  `lastname` varchar(30) CHARACTER SET utf8 COLLATE utf8_estonian_ci NOT NULL,
+  `birthday` date NOT NULL,
+  `gender` int(1) NOT NULL,
+  `pic` varchar(11) NOT NULL,
+  `address` varchar(70) CHARACTER SET utf8 COLLATE utf8_estonian_ci NOT NULL,
+  `phone_number` varchar(30) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted` int(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+)
 
 
 Kokkuvõte:
