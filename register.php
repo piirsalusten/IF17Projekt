@@ -1,8 +1,6 @@
 <?php
 	require("../../config.php");
 	require("functions.php");
-	#echo $serverHost;
-
 	
 	$signupFirstName = "";
 	$signupFamilyName = "";
@@ -29,6 +27,10 @@
 	$signupAddressError = "";
 	$signupPhoneNumberError = "";
 	
+	#muutujad
+	$loginEmail = "";
+	$notice= "";
+	
 	
 	#Kas luuakse uut kasutajat, vajutati nuppu?
 	if(isset ($_POST["signupButton"])){
@@ -50,21 +52,20 @@
 			$signupFamilyName = test_input($_POST["signupFamilyName"]);
 		}
 	}
-
 	#Kas päev on sisestatud
 	if (isset ($_POST["signupBirthDay"])){
 		$signupBirthDay = $_POST["signupBirthDay"];
-		echo $signupBirthDay;
+		//echo $signupBirthDay;
 	}
 	#kas kuu on sisestatud
 	if (isset ($_POST["signupBirthMonth"])){
 		$signupBirthMonth = $_POST["signupBirthMonth"];
-		echo $signupBirthMonth;
+		//echo $signupBirthMonth;
 	}
 	#kas aasta on sisestatud?
 	if (isset ($_POST["signupBirthYear"])){
 		$signupBirthYear = $_POST["signupBirthYear"];
-		echo $signupBirthYear;
+		//echo $signupBirthYear;
 	}
 	
 	# Kontrollime, kas sisestatud kuuppäev on valiidne?
@@ -72,7 +73,7 @@
 	if (checkdate(intval($_POST["signupBirthMonth"]), intval ($_POST["signupBirthDay"]), intval(["signupBirthDay"]))){
 		$birthDate = date_create($_POST["signupBirthMonth"] ."/" . $_POST["signupBirthDay"] ."/" . $_POST["signupBirthYear"]);
 		$signupBirthDate = date_format($birthDate, "Y-m-d");
-		echo $signupBirthDate;
+		//echo $signupBirthDate;
 		
 		} else {
 			$signupBirthDayError = "Sünnikuupäev pole valiidne!";
@@ -85,6 +86,12 @@
 	if (isset ($_POST["signupPic"])){
 		if (empty ($_POST["signupPic"])){
 			$signupPicError ="NB! Väli on kohustuslik!";
+		}
+		if (strlen($_POST["signupPic"]) < 11 ){
+			$signupPicError ="NB! kuupäev pole korrektne!";
+		}
+		if(strlen($_POST["signupPic"]) > 11 ){
+			$signupPicError ="NB! kuupäev pole korrektne!";
 		} else {
 			$signupPic = test_input($_POST["signupPic"]);
 		}
@@ -194,6 +201,7 @@
 
 
 
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 <head>
@@ -210,22 +218,24 @@
 
 			<div id="header">
 				<div id="logo">
-					<h1>Logo</h1>
+					
 				</div>
 
 				<div style="clear:both"></div>
 
 				<ul id="menu">
-					<li><a href="index.php">Avaleht</a></li>
-					<li><a href="#">Pood</a>
+					<li><a href="index.php"><pealkiri>AVALEHT</pealkiri></a></li>
+					<li><a href=""><pealkiri>KUULUTUSED</pealkiri></a>
 				<ul>
-					<li><a href="">Elektroonika</a></li>
-					<li><a href="">Riideesemed</a></li>
-					<li><a href="">Mööbel</a></li>
-					<li><a href="">Muu</a></li>
+				
+					<li><a href="electronics.php"><pealkiri>ELEKTROONIKA</pealkiri></a></li>
+					<li><a href="clothes.php"><pealkiri>RIIDEESEMED</pealkiri></a></li>
+					<li><a href="furniture.php"><pealkiri>MÖÖBEL</pealkiri></a></li>
+					<li><a href="others.php"><pealkiri>MUU</pealkiri></a></li>
+				
 				</ul>
-					<li><a href="#">KKK</a></li>
-					<li><a href="contact.php">Kontakt</a></li>
+					<li><a href="questions.php"><pealkiri>REEGLID</pealkiri></a></li>
+					<li><a href="contact.php"><pealkiri>KONTAKT</pealkiri></a></li>
 				
 				<div style="clear:both"></div>
 
@@ -281,17 +291,35 @@
 		
 		<input name="signupButton" type="submit" value="Loo kasutaja">
 	</form>
-				
-
-						
+		
+				</div>
+		
 			</div>
 
 			<div id="sidebar">
-				
 				<div id="feeds">
-					<h3>Logi sisse/
-					registreeri</h3>	
 					
+					<?php if( isset($_SESSION['userId']) && !empty($_SESSION['userId']) )
+						{
+					?>
+					<p>Tere, <?php echo $_SESSION["firstname"] ." " .$_SESSION["lastname"]; ?></p>
+					<p><a href="addsale.php">Lisa kuulutus</a></p>
+					<a href="mylistings.php">Minu kuulutused</a><br>
+					<a href="?logout=1">Logi välja!</a>
+					<?php }else{ ?>
+					<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+					<label>Kasutajanimi (E-post): </label>
+					<br>
+					<input name="loginEmail" type="email" value="<?php echo $loginEmail; ?>">
+					<br><br>
+					<label>Parool: </label>
+					<br>
+					<input name="loginPassword" placeholder="Salasõna" type="password">
+					<br><br>
+					<input name="signinButton" type="submit" value="Logi sisse"> <span> <?php echo $notice ?><span>
+					</form>
+					<a href="register.php">Registreeri!</a>
+					<?php } ?>
 				</div>
 
 			
@@ -301,7 +329,7 @@
 			</div>
 			<div style="clear:both"></div>
 
-		</div> 
+		</div>
 
 	</div>	
 

@@ -66,18 +66,18 @@
 				<div style="clear:both"></div>
 
 				<ul id="menu">
-					<li><a href="index.php">Avaleht</a></li>
-					<li><a href="#">Pood</a>
+					<li><a href="index.php"><pealkiri>AVALEHT</pealkiri></a></li>
+					<li><a href=""><pealkiri>KUULUTUSED</pealkiri></a>
 				<ul>
 				
-					<li><a href="">Elektroonika</a></li>
-					<li><a href="">Riideesemed</a></li>
-					<li><a href="">Mööbel</a></li>
-					<li><a href="">Muu</a></li>
+					<li><a href="electronics.php"><pealkiri>ELEKTROONIKA</pealkiri></a></li>
+					<li><a href="clothes.php"><pealkiri>RIIDEESEMED</pealkiri></a></li>
+					<li><a href="furniture.php"><pealkiri>MÖÖBEL</pealkiri></a></li>
+					<li><a href="others.php"><pealkiri>MUU</pealkiri></a></li>
 				
 				</ul>
-					<li><a href="#">KKK</a></li>
-					<li><a href="contact.php">Kontakt</a></li>
+					<li><a href="questions.php"><pealkiri>REEGLID</pealkiri></a></li>
+					<li><a href="contact.php"><pealkiri>KONTAKT</pealkiri></a></li>
 				
 				<div style="clear:both"></div>
 
@@ -100,6 +100,7 @@
 					?>
 					<p>Tere, <?php echo $_SESSION["firstname"] ." " .$_SESSION["lastname"]; ?></p>
 					<p><a href="addsale.php">Lisa kuulutus</a></p>
+					<a href="mylistings.php">Minu kuulutused</a><br>
 					<a href="?logout=1">Logi välja!</a>
 					<?php }else{ ?>
 					<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">

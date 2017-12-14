@@ -1,5 +1,6 @@
 <?php
-	//et pääseks ligi sessioonile ja funktsioonidele
+
+//et pääseks ligi sessioonile ja funktsioonidele
 	require("../../config.php");
 	require("functions.php");
 	
@@ -37,12 +38,79 @@
 	}
 	
 	}
-	
-	
-	
+
+	if(isset($_POST['email'])) {
+     
+    // CHANGE THE TWO LINES BELOW
+    $email_to = "randoa@tlu.ee";
+     
+    $email_subject = "Lehe tagasiside";
+     
+     
+    function died($error) {
+        // your error code can go here
+        echo "Kahjuks tekkis tõrge. ";
+        echo "Error: .<br /><br />";
+        echo $error."<br /><br />";
+        echo "Palun parandage vead.<br /><br />";
+        die();
+    }
+     
+    // validation expected data exists
+    if(!isset($_POST['first_name']) ||
+        !isset($_POST['last_name']) ||
+        !isset($_POST['email']) ||
+        !isset($_POST['telephone']) ||
+        !isset($_POST['comments'])) {
+        died('Kahjuks tekkis tõrge');       
+    }
+     
+    $first_name = $_POST['first_name']; // required
+    $last_name = $_POST['last_name']; // required
+    $email_from = $_POST['email']; // required
+    $telephone = $_POST['telephone']; // not required
+    $comments = $_POST['comments']; // required
+     
+    $error_message = "";
+    $email_exp = '/^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
+  if(!preg_match($email_exp,$email_from)) {
+    $error_message .= 'Emaili aadress ei sobi.<br />';
+  }
+    $string_exp = "/^[A-Za-z .'-]+$/";
+  if(!preg_match($string_exp,$first_name)) {
+    $error_message .= 'Eesnimi ei sobi.<br />';
+  }
+  if(!preg_match($string_exp,$last_name)) {
+    $error_message .= 'Perekonnanimi ei sobi.<br />';
+  }
+  if(strlen($comments) < 2) {
+    $error_message .= 'Kommentaar ei sobi.<br />';
+  }
+  if(strlen($error_message) > 0) {
+    died($error_message);
+  }
+    $email_message = "Detailid.\n\n";
+     
+    function clean_string($string) {
+      $bad = array("content-type","bcc:","to:","cc:","href");
+      return str_replace($bad,"",$string);
+    }
+     
+    $email_message .= "Eesnimi: ".clean_string($first_name)."\n";
+    $email_message .= "Perekonnanimi: ".clean_string($last_name)."\n";
+    $email_message .= "Email: ".clean_string($email_from)."\n";
+    $email_message .= "Telefoni number: ".clean_string($telephone)."\n";
+    $email_message .= "Kommentaar: ".clean_string($comments)."\n";
+     
+     
+// create email headers
+$headers = 'From: '.$email_from."\r\n".
+'Vasta: '.$email_from."\r\n" .
+'X-Mailer: PHP/' . phpversion();
+@mail($email_to, $email_subject, $email_message, $headers);  
+	}
+
 ?>
-
-
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
@@ -84,8 +152,8 @@
 				</div>
 
 			<div id="content">
-				<h2> Viimati üleslaetud kuulutused: </h2>
-				<span><table style="width:100%"> <tr><?php echo latestItems(); ?></tr></table> <br></span>
+				<h2>Aitäh, et võtsite meiega ühendust. Võtame Teiega peagi ühendust!</h2>
+				
 		
 				</div>
 		

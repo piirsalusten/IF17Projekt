@@ -85,15 +85,6 @@
 			return $notice;
 		}
 		
-		public function saveOriginal($directory, $fileName){
-			$target_file = $directory .$fileName;
-			if (move_uploaded_file($this->tempName, $target_file)) {
-				$notice .= "Originaalfaili salvestamine õnnestus! ";
-			} else {
-				$notice .= "Originaalfaili salvestamine ebaõnnestus! ";
-			}
-		}
-		
 		public function createThumbnail($directory, $filename, $width, $height){
 			$imageWidth = imagesx($this->myTempImage);
 			$imageHeight = imagesy($this->myTempImage);
